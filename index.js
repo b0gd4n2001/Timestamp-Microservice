@@ -25,11 +25,14 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.get("/api/:date", function (req, res) {
-  if (Number.isNaN(req.params.date)) {
-    if (new Date(req.params.date) == 'Invalid Date') return res.json({ error : "Invalid Date" })
-    var unixDate = Number(Date.parse(new Date(req.params.date)));
-    var utcDate = new Date(req.params.date);
-    res.json({unix: unixDate, utc: utcDate.toUTCString()})
+  if (Number.isNaN(Number(req.params.date))) {
+    if (new Date(req.params.date) == 'Invalid Date') {
+      res.json({ error : "Invalid Date" });
+    } else {
+      var unixDate = Number(Date.parse(new Date(req.params.date)));
+      var utcDate = new Date(req.params.date);
+      res.json({unix: unixDate, utc: utcDate.toUTCString()})
+    }
   } else {
     var unixDate = Number(req.params.date);
     var utcDate = new Date(Number(req.params.date));
