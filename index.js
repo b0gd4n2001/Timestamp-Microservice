@@ -25,7 +25,11 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.get("/api/:date", function (req, res) {
-  res.json({unix: req.params.date, utc: req.params.date})
+  if (Number.isNaN(req.params.date)) {
+    res.json({unix: Date.parse(new Date(req.params.date)), utc: new Date(req.params.date)})
+  } else {
+    res.json({unix: req.params.date, utc: new Date(req.params.date * 1000)})
+  }
 });
 
 // Listen on port set in environment variable or default to 3000
